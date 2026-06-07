@@ -1,0 +1,57 @@
+# ==============================================================================
+# Consolidated requirements for ComfyUI Custom Nodes
+# ==============================================================================
+
+# --- Requirements for ComfyUI_StableHair_ll (This Node) ---
+transformers<5.0.0            # Prevents FLAX_WEIGHTS_NAME ImportError from transformers 5.x
+diffusers>=0.27.2
+huggingface-hub>=0.23.0
+sympy
+accelerate
+xformers                      # Optional but recommended for optimized CUDA operations
+
+# --- Requirements for ComfyUI-Easy-Use ---
+clip_interrogator>=0.6.0
+lark
+onnxruntime
+opencv-python-headless        # Prevents headless GUI dependency errors in container environments
+peft
+
+# --- Requirements for ComfyUI-KJNodes ---
+color-matcher
+mss
+
+# --- Requirements for ComfyUI-Facerestore-Tensorrt ---
+# Note: tensorrt package version should match your CUDA and Nvidia Driver setup
+tensorrt==10.4.0
+polygraphy
+colored
+
+# --- Requirements for facerestore_cf ---
+addict
+future
+lmdb
+scikit-image
+yapf
+lpips
+gdown                         # For downloading models from Google Drive
+
+# --- Requirements for ComfyUI-Manager ---
+GitPython
+PyGithub
+matrix-nio
+typer
+rich
+toml
+uv
+chardet
+
+# --- Core ComfyUI Shared Dependencies (already installed but verified for custom nodes) ---
+numpy>=1.25.0
+einops
+Pillow>=10.3.0
+pyyaml
+requests
+scipy
+tqdm
+spandrel
