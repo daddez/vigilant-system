@@ -58,6 +58,26 @@ def handler(job):
     if not workflow:
          return {"error": "Nessun workflow fornito nell'input."}
 
+    # =======================================================
+    # NOVITÀ: SALVATAGGIO IMMAGINI IN INGRESSO SUL DISCO
+    # =======================================================
+    input_images = job_input.get('input_images', {})
+    input_dir = os.path.join(COMFYUI_DIR, "input")
+    
+    # Se la cartella input non esiste, la creiamo per sicurezza
+    os.makedirs(input_dir, exist_ok=True)
+    
+    # Decodifichiamo le immagini e le salviamo con il nome corretto
+    for filename, b64_data in input_images.items():
+        filepath = os.path.join(input_dir, filename)
+        try:
+            with open(filepath, "wb") as f:
+                f.write(base64.b64decode(b64_data))
+            print(f"Immagine di input salvata correttamente: {filename}")
+        except Exception as e:
+            print(f"Errore durante il salvataggio di {filename}: {e}")
+    # =======================================================
+
     # 1. Invia il workflow a ComfyUI
     print("Inviando il prompt a ComfyUI...")
     try:
