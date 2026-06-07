@@ -10,7 +10,7 @@ import urllib.parse
 # ==========================================
 # CONFIGURAZIONE PERCORSI (BLINDATI)
 # ==========================================
-COMFYUI_DIR = "/runpod-volume/runpod-slim/ComfyUI"
+COMFYUI_DIR = "/workspace/runpod-slim/ComfyUI"
 PYTHON_EXECUTABLE = f"{COMFYUI_DIR}/.venv-cu128/bin/python"
 COMFYUI_PORT = "8188"
 COMFYUI_URL = f"http://127.0.0.1:{COMFYUI_PORT}"
