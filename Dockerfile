@@ -2,7 +2,7 @@
 FROM python:3.12-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 2. Librerie di sistema indispensabili
+# 2. Librerie di sistema
 RUN apt-get update && apt-get install -y \
     git \
     libgl1 \
@@ -12,16 +12,19 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# 3. Copiamo il file requirements.txt dal tuo GitHub al container
-COPY requirements.txt /requirements.txt
+# ==========================================
+# 3. BLINDATURA PYTORCH (CUDA 12.1 Universale)
+# ==========================================
+RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
-# 4. Installiamo TUTTE le dipendenze di ComfyUI globalmente nell'immagine
+# 4. Installazione di tutte le altre librerie
+COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
 
-# 5. Installiamo le dipendenze per l'API Serverless
+# 5. Dipendenze Serverless
 RUN pip install --no-cache-dir runpod requests
 
-# 6. Copiamo il tuo handler
+# 6. Copiamo l'handler
 COPY handler.py /handler.py
 
 # 7. Avvio
