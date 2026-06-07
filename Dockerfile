@@ -4,7 +4,7 @@ FROM python:3.12-slim
 # 2. Evitiamo interruzioni durante l'installazione
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 3. Installiamo le librerie di sistema
+# 3. Installiamo le librerie video/grafiche di sistema base
 RUN apt-get update && apt-get install -y \
     libgl1 \
     libglib2.0-0 \
@@ -14,15 +14,18 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # ==========================================
-# LA MAGIA: Creiamo lo specchio per il VENV
+# 4. GLI SPECCHI MAGICI (SYMLINKS)
 # ==========================================
+# Inganna i percorsi assoluti dei file dicendo che workspace è runpod-volume
 RUN ln -s /runpod-volume /workspace
+# Inganna l'ambiente virtuale fornendogli il collegamento al vecchio nome di Python
+RUN ln -s /usr/local/bin/python /usr/bin/python3.12
 
-# 4. Installiamo la libreria di RunPod
+# 5. Installiamo la libreria di comunicazione di RunPod
 RUN pip install --no-cache-dir runpod requests
 
-# 5. Copiamo il tuo handler.py
+# 6. Copiamo il tuo cervello Serverless
 COPY handler.py /handler.py
 
-# 6. Accensione
+# 7. Accendiamo il ricevitore
 CMD ["python", "-u", "/handler.py"]
